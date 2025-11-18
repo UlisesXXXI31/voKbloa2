@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // ---- VARIABLES GLOBALES Y ELEMENTOS DEL DOM ----
-    let puntos = 0;
-    let puntosUltimaSesion = 0;
+    let puntos = parseInt(localStorage.getItem('puntosTotales')) || 0;
+    let puntosUltimaSesion = parseInt(localStorage.getItem('puntosUltimaSesionGuardados')) || 0;
     let leccionActual = null;
     let actividadActual = null;
 
@@ -258,13 +258,17 @@ registerServiceWorker();
                 });
                 localStorage.setItem("historialPuntos", JSON.stringify(historial));
             }
-            puntosUltimaSesion = puntos;
+           puntosUltimaSesion = puntos;
+           localStorage.setItem("puntosUltimaSesionGuardados", puntosUltimaSesion.toString());
+           localStorage.setItem('puntosTotales', puntos.toString()); 
             return;
         }
 
         const puntosSesion = puntos - puntosUltimaSesion;
         if (puntosSesion <= 0) {
             puntosUltimaSesion = puntos;
+            localStorage.setItem("puntosUltimaSesionGuardados", puntosUltimaSesion.toString());
+            localStorage.setItem('puntosTotales', puntos.toString());
             return;
         }
         // --- LÓGICA PARA DETERMINAR SI LA ACTIVIDAD FUE COMPLETADA ---
@@ -338,6 +342,8 @@ console.log("Enviando datos de progreso con 'completed' dinámico:", progressDat
         });
         localStorage.setItem("historialPuntos", JSON.stringify(historial));
         puntosUltimaSesion = puntos;
+        localStorage.setItem("puntosUltimaSesionGuardados", puntosUltimaSesion.toString());
+        localStorage.setItem('puntosTotales', puntos.toString());
     }
     function mostrarHistorial() {
         const historialContainer = document.getElementById("historial-container");
@@ -432,6 +438,7 @@ console.log("Enviando datos de progreso con 'completed' dinámico:", progressDat
             puntos++;
             traducirIndice++;
             actualizarPuntos();
+            localStorage.setItem('puntosTotales', puntos.toString());
             setTimeout(mostrarPalabraTraducir, 1000);
             // Esto solo se registrará cuando la actividad completa haya terminado
         } else {
@@ -534,6 +541,7 @@ function seleccionarEmparejar(tipo, btn, valor) {
         if (correcto) {
             puntos++;
             actualizarPuntos();
+            localStorage.setItem('puntosTotales', puntos.toString());
             if (feedback) {
                 feedback.textContent = "¡Correcto!";
                 feedback.style.color = "green";
@@ -563,6 +571,7 @@ function seleccionarEmparejar(tipo, btn, valor) {
         } else {
             puntos = Math.max(0, puntos - 1);
             actualizarPuntos();
+            localStorage.setItem('puntosTotales', puntos.toString());
             if (feedback) {
                 feedback.textContent = "Incorrecto. Intenta de nuevo.";
                 feedback.style.color = "red";
@@ -627,6 +636,7 @@ function seleccionarEmparejar(tipo, btn, valor) {
                     sonidoCorrcto.play();
                     puntos++;
                     actualizarPuntos();
+                    localStorage.setItem('puntosTotales', puntos.toString());
                     eleccionIndice++;
                     setTimeout(mostrarPreguntaEleccion, 1000);
                 } else {
@@ -706,6 +716,7 @@ function seleccionarEmparejar(tipo, btn, valor) {
             puntos++;
             escucharIndice++;
             actualizarPuntos();
+            localStorage.setItem('puntosTotales', puntos.toString());
             setTimeout(mostrarPalabraEscuchar, 1000);
         } else {
             if (feedback) {
@@ -786,6 +797,7 @@ function seleccionarEmparejar(tipo, btn, valor) {
                 sonidoCorrcto.play();
                 puntos++;
                 actualizarPuntos();
+                localStorage.setItem('puntosTotales', puntos.toString());
                 indicePalabraActual++;
                 setTimeout(mostrarPalabraPronunciacion, 2000);
             } else {
