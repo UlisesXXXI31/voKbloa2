@@ -243,7 +243,7 @@ registerServiceWorker();
         });
     }
 
-  // Funciones de historial y API
+ // Funciones de historial y API
     function guardarPuntuacionEnHistorial() {
         console.log("Dentro de guardarPuntuacionEnHistorial()...");
         const userData = JSON.parse(localStorage.getItem('userData'));
@@ -262,11 +262,10 @@ registerServiceWorker();
                 });
                 localStorage.setItem("historialPuntos", JSON.stringify(historial));
             }
-            puntosUltimaSesion = puntos;
+           puntosUltimaSesion = puntos;
            localStorage.setItem("puntosUltimaSesionGuardados", puntosUltimaSesion.toString());
            localStorage.setItem('puntosTotales', puntos.toString()); 
-           return;
-            
+            return;
         }
 
         const puntosSesion = puntos - puntosUltimaSesion;
