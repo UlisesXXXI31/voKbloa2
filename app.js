@@ -54,14 +54,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const sonidoCorrcto = new Audio("audios/correcto.mp3");
     const sonidoIncorrecto = new Audio("audios/incorrecto.mp3");
 
-     // Registro del Service Worker
+   // Registro del Service Worker
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-navigator.serviceWorker.register('/languagesolutionsa1/service-worker.js', {
-    scope: '/languagesolutionsa1/' // <-- ¡AÑADE/CORRIGE ESTA LÍNEA!
+navigator.serviceWorker.register('/voKbloa2/service-worker.js', {
+    scope: '/voKbloa2/' // <-- ¡AÑADE/CORRIGE ESTA LÍNEA!
 })
-// ... el resto de tu .then y .catch'
+// ... el resto del .then y .catch'
             
             .then(function(registration) {
                 console.log('✅ SW registrado correctamente con scope:', registration.scope);
@@ -115,6 +115,7 @@ registerServiceWorker();
     // Lógica de cerrar sesión
     if (btnLogout) {
         btnLogout.addEventListener('click', () => {
+            console.log("Botón 'Cerrar Sesión' pulsado. Llamando a guardar puntuación...");
             localStorage.removeItem('token');
             localStorage.removeItem('role');
             localStorage.removeItem('userData');
@@ -226,16 +227,18 @@ registerServiceWorker();
             mostrarPantalla("pantalla-historial");
         });
     }
-     if (btnGuardarPuntos) {
-        btnGuardarPuntos.addEventListener("click", () => {
-            guardarPuntuacionEnHistorial();
-        });
-    }
 
     if (btnSalirHistorial) {
         btnSalirHistorial.addEventListener("click", () => {
             mostrarPantalla("pantalla-lecciones");
             mostrarLecciones();
+        });
+    }
+
+    if (btnGuardarPuntos){
+        btnGuardarPuntos.addEventListener("click", () => {
+            console.log("Botón 'Guardar Puntos' pulsado. Llamando a guardar puntuación...");
+              guardarPuntuacionEnHistorial();
         });
     }
 
@@ -258,10 +261,11 @@ registerServiceWorker();
                 });
                 localStorage.setItem("historialPuntos", JSON.stringify(historial));
             }
-           puntosUltimaSesion = puntos;
+            puntosUltimaSesion = puntos;
            localStorage.setItem("puntosUltimaSesionGuardados", puntosUltimaSesion.toString());
            localStorage.setItem('puntosTotales', puntos.toString()); 
-            return;
+           return;
+            
         }
 
         const puntosSesion = puntos - puntosUltimaSesion;
@@ -345,6 +349,8 @@ console.log("Enviando datos de progreso con 'completed' dinámico:", progressDat
         localStorage.setItem("puntosUltimaSesionGuardados", puntosUltimaSesion.toString());
         localStorage.setItem('puntosTotales', puntos.toString());
     }
+
+
     function mostrarHistorial() {
         const historialContainer = document.getElementById("historial-container");
         if (!historialContainer) return;
@@ -397,19 +403,21 @@ console.log("Enviando datos de progreso con 'completed' dinámico:", progressDat
     function iniciarTraducir() {
         traducirPalabras = [...leccionActual.palabras];
         traducirIndice = 0;
-        mezclarPalabras(traducirPalabras);
-        mostrarPalabraTraducir();
+         mezclarPalabras(traducirPalabras);
+         mostrarPalabraTraducir();
     }
-
-    function mezclarPalabras(array){
-        array.sort(() => Math.random() - 0.5);
-    }
-
+  function mezclarPalabras(array){
+            array.sort(() => Math.random() - 0.5);
+        }
+    
     function mostrarPalabraTraducir() {
         if (traducirIndice >= traducirPalabras.length) {
             if (actividadJuego) actividadJuego.innerHTML = `<p>Has terminado la actividad Traducir.</p>`;
             return;
+          
         }
+      
+        
         const palabra = traducirPalabras[traducirIndice];
         if (actividadJuego) {
             actividadJuego.innerHTML = `
@@ -452,7 +460,7 @@ console.log("Enviando datos de progreso con 'completed' dinámico:", progressDat
         }
     }
 
-      // Código de la actividad "Emparejar"
+    // Código de la actividad "Emparejar"
     let emparejarPalabras = [];
     let emparejarPares = [];
     let emparejarSeleccionados = [];
@@ -663,9 +671,8 @@ function seleccionarEmparejar(tipo, btn, valor) {
         mezclarPalabras(escucharPalabras);
         mostrarPalabraEscuchar();
     }
-    
     function mezclarPalabras(array){
-         array.sort(() => Math.random() - 0.5);
+        array.sort(() => Math.random() - 0.5);
     }
 
     function mostrarPalabraEscuchar() {
@@ -739,8 +746,9 @@ function seleccionarEmparejar(tipo, btn, valor) {
         mezclarPalabras(palabrasPronunciacion);
         mostrarPalabraPronunciacion();
     }
+
     function mezclarPalabras(array){
-         array.sort(() => Math.random() - 0.5);
+        array.sort(() => Math.random() - 0.5);
     }
 
     function mostrarPalabraPronunciacion() {
