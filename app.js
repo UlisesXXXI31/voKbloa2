@@ -24,6 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let leccionActual = null;
     let actividadActual = null;
 
+     // <<< INICIO CÓDIGO RACHA >>>
+    let rachaActual = parseInt(localStorage.getItem('rachaActual')) || 0;
+    let ultimaFechaActividad = localStorage.getItem('ultimaFechaActividad') || null;
+    // <<< FIN CÓDIGO RACHA >>>
+
     // Elementos del DOM
     const pantallaLecciones = document.getElementById("pantalla-lecciones");
     const pantallaActividades = document.getElementById("pantalla-actividades");
@@ -49,7 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnVolverActividades = document.getElementById("btn-volver-actividades");
     const btnLogout = document.getElementById('btn-logout');
 
-  
+    // <<< INICIO CÓDIGO RACHA - Elemento DOM >>>
+    const rachaElemento = document.getElementById('racha-display'); 
+    // <<< FIN CÓDIGO RACHA - Elemento DOM >>>
+    
 
     // Sonidos
     const sonidoCorrcto = new Audio("audios/correcto.mp3");
